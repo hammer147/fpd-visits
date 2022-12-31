@@ -1,7 +1,7 @@
 'use client'
 
 import type { NextPage } from 'next'
-import Head from 'next/head'
+// import Head from 'next/head'
 import styles from './page.module.css'
 import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react'
 import { useState } from 'react'
@@ -20,11 +20,11 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Head>
+      {/* <Head>
         <title>FingerprintJS Pro NextJS Demo</title>
         <meta name='description' content='Check if fingerprintjs-pro-react integration works with NextJS SSR' />
         <link rel='icon' href='/favicon.ico' />
-      </Head>
+      </Head> */}
 
       <h1>FingerprintJS Pro NextJS Demo</h1>
       <div className={styles.testArea}>

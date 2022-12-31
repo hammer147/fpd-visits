@@ -6,7 +6,7 @@ import styles from './page.module.css'
 import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react'
 import { useState } from 'react'
 
-const Home: NextPage = () => {
+const Home = () => {
   const [extendedResult, updateExtendedResult] = useState(false)
   const { isLoading, error, data, getData } = useVisitorData({ extendedResult }, { immediate: true })
 

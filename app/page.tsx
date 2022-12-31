@@ -1,91 +1,50 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
+'use client'
+
+import type { NextPage } from 'next'
+import Head from 'next/head'
 import styles from './page.module.css'
+import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react'
+import { useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+const Home: NextPage = () => {
+  const [extendedResult, updateExtendedResult] = useState(false)
+  const { isLoading, error, data, getData } = useVisitorData({ extendedResult }, { immediate: true })
 
-export default function Home() {
+  const reloadData = () => {
+    getData({ ignoreCache: true })
+  }
+
+  const onChangeExtendedResult = (e:React.ChangeEvent<HTMLInputElement>) => {
+    updateExtendedResult(e.target.checked)
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={styles.container}>
+      <Head>
+        <title>FingerprintJS Pro NextJS Demo</title>
+        <meta name='description' content='Check if fingerprintjs-pro-react integration works with NextJS SSR' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+
+      <h1>FingerprintJS Pro NextJS Demo</h1>
+      <div className={styles.testArea}>
+        <div className={styles.controls}>
+          <button onClick={reloadData} type='button'>
+            Reload data
+          </button>
+          <label>
+            <input type='checkbox' onChange={onChangeExtendedResult} checked={extendedResult} />
+            Extended result
+          </label>
         </div>
+        <h4>
+          VisitorId: <span className={styles.visitorId}>{isLoading ? 'Loading...' : data?.visitorId}</span>
+        </h4>
+        <h4>Full visitor data:</h4>
+        <pre className={styles.data}>{error ? error.message : JSON.stringify(data, null, 2)}</pre>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   )
 }
+
+export default Home

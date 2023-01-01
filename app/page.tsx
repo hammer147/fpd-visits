@@ -1,6 +1,5 @@
 'use client'
 
-import styles from './page.module.css'
 import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react'
 import { useState } from 'react'
 
@@ -20,11 +19,14 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className='p-24 flex flex-col justify-center'>
       <h1>FingerprintJS Pro NextJS Demo</h1>
-      <div className={styles.testArea}>
-        <div className={styles.controls}>
-          <button onClick={reloadData} type='button'>
+      <div className='p-5'>
+        <div className='grid grid-flow-col items-center'>
+          <button
+            className='text-sm font-medium cursor-pointer bg-orange-600 text-white rounded'
+            onClick={reloadData}
+            type='button'>
             Reload data
           </button>
           <label>
@@ -34,10 +36,12 @@ const Home = () => {
         </div>
         <h4>
           VisitorId:{' '}
-          <span className={styles.visitorId}>{isLoading ? 'Loading...' : data?.visitorId}</span>
+          <span className='font-normal'>{isLoading ? 'Loading...' : data?.visitorId}</span>
         </h4>
         <h4>Full visitor data:</h4>
-        <pre className={styles.data}>{error ? error.message : JSON.stringify(data, null, 2)}</pre>
+        <pre className='overflow-scroll'>
+          {error ? error.message : JSON.stringify(data, null, 2)}
+        </pre>
       </div>
     </div>
   )
